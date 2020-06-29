@@ -4,11 +4,16 @@ import static br.com.automacao.appium.core.DriverFactory.getDriver;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
@@ -51,6 +56,23 @@ public class BasePage {
 		if (getDriver().isKeyboardShown()) {
 			getDriver().hideKeyboard();
 		}
+	}
+	
+	public void esperar(int timeSeconds) {
+		try {
+			Thread.sleep(timeSeconds * 1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void aguardarElementoVisivel(By by){
+		Wait wait = new FluentWait(getDriver())
+		.withTimeout(45, TimeUnit.SECONDS)
+		.pollingEvery(5, TimeUnit.SECONDS)
+		.ignoring(NoSuchElementException.class);	
+		wait.until(ExpectedConditions.elementToBeClickable(by));
+		
 	}
 	
 	//Clicar em posicao especifica

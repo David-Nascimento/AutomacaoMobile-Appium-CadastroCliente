@@ -43,7 +43,7 @@ public class BaseTeste {
 	@After
 	public void tearDown() {
 		gerarScreenShot();
-		//DriverCursoFactory.getDriver().resetApp();
+		DriverFactory.getDriver().resetApp();
 	}
 
 	public void gerarScreenShot() {

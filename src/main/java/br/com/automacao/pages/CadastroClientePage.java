@@ -28,6 +28,9 @@ public class CadastroClientePage extends BasePage {
 	private final By botaoOk = By.id("android:id/button1");
 	private final By foto = By.id("br.com.dudstecnologia.cadastrodeclientes:id/imagemCliente");
 	private final By camera = By.id("android:id/text1");
+	private final By capturarImagem = By.id("com.android.camera2:id/shutter_button");
+	private final By confirmarCapturaImagem = By.id("com.android.camera2:id/done_button");
+	private final By cropImagem = By.id("br.com.dudstecnologia.cadastrodeclientes:id/crop_image_menu_crop");
 	
 	public void preencherCampoNome(String nome) {
 		escrever(campoNome, nome);
@@ -98,7 +101,14 @@ public class CadastroClientePage extends BasePage {
 	}
 	
 	public void cliqueCamera() {
+		aguardarElementoVisivel(camera);
 		clique(camera);
+	}
+	
+	public void tirarFoto() {
+		clique(capturarImagem);
+		clique(confirmarCapturaImagem);
+		clique(cropImagem);
 	}
 	
 	public String getCampoNome(){
@@ -169,10 +179,11 @@ public class CadastroClientePage extends BasePage {
 		preencherCampoDataNascimento(cliente.getDataNascimento());
 		preencherCampoEndereco(cliente.getEndereco());
 		preencherCampoNumero(cliente.getNumero());
+		scroll(0.7,0.1);
 		preencherCampoBairro(cliente.getBairro());
 		preencherCampoCEP(cliente.getCep());
-		preencherCampoCidade(cliente.getCidade());
 		scroll(0.7,0.1);
+		preencherCampoCidade(cliente.getCidade());
 		preencherCampoTelefone1(cliente.getTelefone1());
 		preencherCampoTelefone2(cliente.getTelefone2());
 		preencherCampoEmail(cliente.getEmail());
