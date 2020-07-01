@@ -1,8 +1,12 @@
 package br.com.automacao.pages;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.openqa.selenium.By;
 
 import br.com.automacao.appium.BasePage;
+import br.com.automacao.appium.core.DriverFactory;
 import br.com.automacao.appium.entity.ClienteEntity;
 import br.com.automacao.factory.ClienteFactory;
 
@@ -27,10 +31,8 @@ public class CadastroClientePage extends BasePage {
 	private final By mensagemAlerta = By.id("android:id/message");
 	private final By botaoOk = By.id("android:id/button1");
 	private final By foto = By.id("br.com.dudstecnologia.cadastrodeclientes:id/imagemCliente");
-	private final By camera = By.id("android:id/text1");
-	private final By capturarImagem = By.id("com.android.camera2:id/shutter_button");
-	private final By confirmarCapturaImagem = By.id("com.android.camera2:id/done_button");
-	private final By cropImagem = By.id("br.com.dudstecnologia.cadastrodeclientes:id/crop_image_menu_crop");
+	
+	private final By selecionarArquivo = By.xpath("//android.widget.LinearLayout[2]/android.widget.FrameLayout");
 	
 	public void preencherCampoNome(String nome) {
 		escrever(campoNome, nome);
@@ -100,15 +102,16 @@ public class CadastroClientePage extends BasePage {
 		clique(foto);
 	}
 	
-	public void cliqueCamera() {
-		aguardarElementoVisivel(camera);
-		clique(camera);
-	}
-	
-	public void tirarFoto() {
-		clique(capturarImagem);
-		clique(confirmarCapturaImagem);
-		clique(cropImagem);
+	public void abrirOpcaoArquivo() {
+		cliqueFoto();
+		clique(selecionarArquivo);
+		String pathProjectFile;
+		try {
+			pathProjectFile = new File("src/test/resources/files/foto3x4.jpg").getCanonicalPath();
+			DriverFactory.getDriver().pushFile("/sdcard/download/foto.jpg", new File(pathProjectFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public String getCampoNome(){

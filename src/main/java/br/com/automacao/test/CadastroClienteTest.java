@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import br.com.automacao.appium.BaseTeste;
+import br.com.automacao.pages.AndroidPage;
 import br.com.automacao.pages.CadastroClientePage;
 import br.com.automacao.pages.PrincipalPage;
 
@@ -97,9 +98,27 @@ public class CadastroClienteTest extends BaseTeste {
 	public void cadastrarClienteComFotoCamera() {
 		acessarPaginaCadastroCliente();
 		CadastroClientePage cadastro = new CadastroClientePage();
+		AndroidPage android = new AndroidPage();
 		cadastro.cliqueFoto();
-		cadastro.cliqueCamera();
-		cadastro.tirarFoto();
+		android.cliqueCamera();
+		android.tirarFoto();
+		cadastro.preencherDadosCliente();
+		cadastro.cliqueBotaoSalvar();
+		Assert.assertEquals("Perfeito", cadastro.getTituloMensagemAlerta());
+		Assert.assertEquals("Cadastro efetuado com sucesso".toUpperCase(), cadastro.getMensagemAlerta().toUpperCase());	
+		cadastro.cliqueBotaoOk();
+	}
+	
+	@Test
+	public void cadastrarClienteComFotoGaleria() {
+		acessarPaginaCadastroCliente();
+		CadastroClientePage cadastro = new CadastroClientePage();
+		cadastro.abrirOpcaoArquivo();
+		AndroidPage android = new AndroidPage();
+		android.cliqueMenuOpcao();
+		android.cliqueDownloads();
+		android.clicarPorTexto("foto.jpg");
+		android.cliqueCropImage();
 		cadastro.preencherDadosCliente();
 		cadastro.cliqueBotaoSalvar();
 		Assert.assertEquals("Perfeito", cadastro.getTituloMensagemAlerta());
